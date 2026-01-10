@@ -1,0 +1,37 @@
+
+{
+		    // Admins
+		    "admins" : [
+		        {"username": "johnAdmin", "password": "ZhaoFullMindscapePNG"},
+				{"username": "FatRucker", "password": "JaneDoeFootstool"}
+		    ],
+		    // Judges
+		    "judges" : [
+		        {"username":"mariaG","password": "JudgePass#2024"},
+		        {"username":"robertH","password": "Fair&Square88"},
+		        {"username":"lindaM","password": "Justice@456"},
+		        {"username":"jamesW", "password":"GavelPower!23"},
+		        {"username":"annaC", "password":"Verdict$ecure7"}
+		   ],
+		    // Spectators
+		    "spectators" : [
+		        {"username":"alexP", "password":"Watch&Learn99"},
+		        {"username":"samB", "password":"Viewer#Pass12"},
+		        {"username":"chrisN", "password":"Spectate@2024"},
+		        {"username":"jordanF", "password":"Observer!456"},
+		        {"username":"taylorV", "password":"Crowd$Pass88"}
+				],
+		    
+			"teams" :[
+		    {"teamId":"T001", "teamName": "Phoenix Strikers", "marks" : [85, 72, 91]},
+		    {"teamId":"T002", "teamName":"Dragon Warriors","marks" :  [78, 88, 65]},
+		    {"teamId":"T003", "teamName":"Thunder Wolves", "marks" : [92, 81, 77]},
+		    {"teamId":"T004", "teamName":"Solar Knights","marks" :  [68, 95, 83]},
+		    {"teamId":"T005", "teamName":"Crimson Eagles","marks" :  [89, 74, 88]},
+		    {"teamId":"T006", "teamName":"Storm Titans", "marks" : [75, 91, 70]},
+		    {"teamId":"T007", "teamName":"Shadow Hunters","marks" :  [83, 67, 94]},
+		    {"teamId":"T008", "teamName":"Blaze Spartans", "marks" : [71, 85, 79]},
+		    {"teamId":"T009", "teamName":"Frost Legends", "marks" : [94, 78, 86]},
+		    {"teamId":"T010", "teamName":"Viper Champions", "marks" : [80, 89, 92]}
+		]
+	}
