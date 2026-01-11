@@ -151,7 +151,9 @@ public static boolean loginAndpermissions () {
 
 public static void adminPerms(boolean access, String username) {
     int choice;
+    String sentinel;
     System.out.println("Hello" + username + ", what do you want to do?");
+    do{
     System.out.println("1. Edit Teams\n2. Edit Judges\n3. Edit Spectators");
     choice = input.nextInt();
     if(choice == 1) {
@@ -163,13 +165,18 @@ public static void adminPerms(boolean access, String username) {
     else if(choice == 3) {
         editSpectators();
     }
+    System.out.println("Want to continue? (Y/N)");
+    sentinel = input.next();
+    if(sentinel.equals("N") || sentinel.equals("n")) {
+        return;
+    }
+}while(true);
 }
 
 public static void judgePerms(boolean access, String username) {
-    boolean sentinel = true;
     int marks = 0;
-    while(sentinel){
-    System.out.println("Hello" + username + ", enter team ID to view and give marks: ");
+    while(true){
+    System.out.println("Hello" + username);
     String teamID = input.next();
     for(int i = 0; i < TeamRead.length; i++) {
         if(teamID.equals(TeamRead[i][0])) {
@@ -189,17 +196,19 @@ public static void judgePerms(boolean access, String username) {
         }
     }
     System.out.print("Continue?(Y/N): ");
-    String sentinel2 = input.next();
-    if(sentinel2.equals("N") || sentinel2.equals("n")) 
-        sentinel = false;
+    String sentinel = input.next();
+    if(sentinel.equals("N") || sentinel.equals("n")) 
+        return; 
 }
-    
 }
     public static void spectatorPerms(boolean access, String username) {
-        boolean sentinel = true;
+        String sentinel;
+        int choice;
         do{
-         System.out.println("Hello" + username + ", enter teamID to view: ");
-        String teamID = input.next();
+         System.out.println("Hello" + username);
+         System.out.println("=====================================\n1. See Teams\n2. See Judges\n3. See leading team in respective categories\n=====================================");
+        choice = input.nextInt();
+         String teamID = input.next();
         for(int i = 0; i < TeamRead.length; i++) {
             if(teamID.equals(TeamRead[i][0])) {
                 System.out.println("Team name: " + TeamRead[i][1]);
@@ -208,14 +217,23 @@ public static void judgePerms(boolean access, String username) {
                 System.out.println("Team average mark: " + average);
             }
         } 
-        }while(sentinel);
+        System.out.print("Continue?(Y/N): ");
+        sentinel = input.next();
+        if(sentinel.equals("N") || sentinel.equals("n")) 
+            return;
+        }while(true);
 }
 
 public static void editTeams() {
-    int choice;
+    int choice = 0;
     System.out.println("Whaddya wanna see?");
-    System.out.println("1. Team mark edit/view\n2. Team name edit/view");
+    while(choice != 1 || choice != 2) {
+    System.out.println("================\n1. Team mark edit/view\n2. Team name edit/view\n==================");
     choice = input.nextInt();
+    if(choice != 1 || choice != 2) {
+        System.out.println("Invalid choice!");
+    }
+    }
     System.out.print("Enter team ID: ");
             String teamID = input.next();
     switch(choice) {
@@ -244,15 +262,21 @@ public static void editTeams() {
             }
         }
     }
+    updateTeams();
 }
 
 
 
 public static void editJudges() {
-    int choice;
+    int choice = 0;
     System.out.println("Whaddya wanna see?");
-    System.out.println("1. Judge name edit/view\n2. Judge password edit/view");
+    while(choice != 1 || choice != 2) {
+    System.out.println("====================\n1. Judge name edit/view\n2. Judge password edit/view\n====================");
     choice = input.nextInt();
+    if(choice != 1 || choice != 2) {
+        System.out.println("Invalid choice!");
+        }
+    }
     System.out.println("Enter judge username: ");
      String judgeName = input.next();
     switch(choice) {
@@ -265,28 +289,71 @@ public static void editJudges() {
                             JudgeRead[i][0] = newName;
                             break;
                         }
-                        else
-                            System.out.println("Judge not found!");
                     }
+
                 break;
             }
         case 2 : {
+            
             for(int i = 0; i < JudgeRead.length; i++) {
+                if(judgeName.equals(JudgeRead[i][0])){
                 System.out.println("Current password: " + JudgeRead[i][1]);
                 System.out.print("Password to change to: ");
                 String newPassword = input.next();
                 JudgeRead[i][1] = newPassword;
+                break;
+                }
             }
             break;
         }
     }
+    updateJudge();
 }
 
 public static void editSpectators() {
+     int choice = 0;
+    System.out.println("Whaddya wanna see?");
+    while(choice != 1 || choice != 2) {
+    System.out.println("====================\n1. Spectator name edit/view\n2. Spectator password edit/view\n====================");
+    choice = input.nextInt();
+    if(choice != 1 || choice != 2) {
+        System.out.println("Invalid choice!");
+    }
+    }
+    System.out.println("Enter spectator username: ");
+     String SpectName = input.next();
+    switch(choice) {
+        case 1 : {
+                    for(int i = 0; i < SpectRead.length; i++) {
+                        if(SpectName.equals(SpectRead[i][0])) {
+                            System.out.println("Current name: " + SpectRead[i][0]);
+                            System.out.print("Name to change to: ");
+                            String newName = input.next();
+                            SpectRead[i][0] = newName;
+                            break;
+                        }
+                    }
 
+                break;
+            }
+        case 2 : {
+            
+            for(int i = 0; i < SpectRead.length; i++) {
+                if(SpectName.equals(SpectRead[i][0])){
+                System.out.println("Current password: " + SpectRead[i][1]);
+                System.out.print("Password to change to: ");
+                String newPassword = input.next();
+                SpectRead[i][1] = newPassword;
+                break;
+                }
+            }
+            break;
+        }
+    }
+    updateSpectators();
 }
 
-
+//METHODS TO UPDATE TEXT FILE
 public static void updateJudge() {
 try (BufferedWriter writer = new BufferedWriter(new FileWriter("JudgeData.txt"))) {
     for (int i = 0; i < JudgeRead.length; i++) {
