@@ -100,7 +100,7 @@ public class canvas {
             boolean sentinel = false;
             do{    
            sentinel = loginAndpermissions();
-        }while(sentinel != false);
+        }while(sentinel);
     }
 
 //now to revamp login page
@@ -139,10 +139,18 @@ public static boolean loginAndpermissions () {
             }  
         }
     }
+    System.out.print("Continue?(Y/N): ");
+    String sentinel = input.next();
+    if(sentinel.equals("Y") || sentinel.equals("y")) {
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 public static void adminPerms(boolean access, String username) {
-    int choice = 0;
+    int choice;
     System.out.println("Hello" + username + ", what do you want to do?");
     System.out.println("1. Edit Teams\n2. Edit Judges\n3. Edit Spectators");
     choice = input.nextInt();
@@ -159,7 +167,7 @@ public static void adminPerms(boolean access, String username) {
 
 public static void judgePerms(boolean access, String username) {
     System.out.println("Hello" + username);
-
+        
     }
 
     public static void spectatorPerms(boolean access, String username) {
@@ -178,6 +186,12 @@ public static void editTeams() {
                 if(teamID.equals(TeamRead[i][0])) {
                     System.out.println("Team name: " + TeamRead[i][1]);
                     System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
+                    System.out.print("Mark to change? Creativity(1), Marketability(2), Customer Service(3):");
+                    int markChoice = input.nextInt();
+                    markChoice += 1;
+                    System.out.print("Mark to change to: ");
+                    String newMark = input.next();
+                    TeamRead[i][markChoice] = newMark;
                 }}
             }
         case 2 : {
@@ -193,6 +207,46 @@ public static void editTeams() {
     }
 }
 
+
+
+public static void editJudges() {
+    int choice;
+    System.out.println("Whaddya wanna see?");
+    System.out.println("1. Judge mark edit/view\n2. Team name edit/view");
+    choice = input.nextInt();
+    System.out.print("Enter team ID: ");
+            String teamID = input.next();
+    switch(choice) {
+        case 1 : {for(int i = 0; i < TeamRead.length; i++) {
+                if(teamID.equals(TeamRead[i][0])) {
+                    System.out.println("Team name: " + TeamRead[i][1]);
+                    System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
+                    System.out.print("Mark to change? Creativity(1), Marketability(2), Customer Service(3):");
+                    int markChoice = input.nextInt();
+                    markChoice += 1;
+                    System.out.print("Mark to change to: ");
+                    String newMark = input.next();
+                    TeamRead[i][markChoice] = newMark;
+                }}
+            }
+        case 2 : {
+            for(int i = 0; i < TeamRead.length; i++) {
+                if(teamID.equals(TeamRead[i][0])) {
+                    System.out.println("Current team name: " + TeamRead[i][1]);
+                   System.out.print("Name to change to: ");
+                   String newName = input.next();
+                   TeamRead[i][1] = newName;
+                }
+            }
+        }
+    }
+}
+
+public static void editSpectators() {
+
+}
+
+
 public static void updateJudge() {
 try (BufferedWriter writer = new BufferedWriter(new FileWriter("JudgeData.txt"))) {
     for (int i = 0; i < JudgeRead.length; i++) {
@@ -201,10 +255,39 @@ try (BufferedWriter writer = new BufferedWriter(new FileWriter("JudgeData.txt"))
             writer.newLine();
         }
     }
-    System.out.println("Judge file updated!");
+    
 } catch (IOException e) {
     e.printStackTrace();
-    }   
+    }       System.out.println("Judge file updated!");
+}
+
+public static void updateSpectators() {
+try (BufferedWriter writer = new BufferedWriter(new FileWriter("SpectatorData.txt"))) {
+    for (int i = 0; i < JudgeRead.length; i++) {
+        if (JudgeRead[i][0] != null) {
+            writer.write(JudgeRead[i][0] + "|" + JudgeRead[i][1]);
+            writer.newLine();
+        }
+    }
+     
+
+} catch (IOException e) {
+    e.printStackTrace();
+    }       System.out.println("Spectator file updated!");
+}
+
+public static void updateTeams() {
+try (BufferedWriter writer = new BufferedWriter(new FileWriter("TeamData.txt"))) {
+    for (int i = 0; i < JudgeRead.length; i++) {
+        if (JudgeRead[i][0] != null) {
+            writer.write(JudgeRead[i][0] + "|" + JudgeRead[i][1]);
+            writer.newLine();
+        }
+    }
+     
+} catch (IOException e) {
+    e.printStackTrace();
+    }       System.out.println("Team file updated!");
 }
 }
 	
