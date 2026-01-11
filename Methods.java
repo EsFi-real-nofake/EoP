@@ -4,6 +4,7 @@ import java.util.Scanner;
 import org.json.*;
 import java.nio.file.*;
 import java.io.*;
+
 public class Methods {
 	static Scanner input = new Scanner(System.in);
 	public static boolean login(int loginChoice) {
