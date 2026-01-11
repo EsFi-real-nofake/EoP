@@ -166,10 +166,35 @@ public static void adminPerms(boolean access, String username) {
 }
 
 public static void judgePerms(boolean access, String username) {
-    System.out.println("Hello" + username);
-        
+    boolean sentinel = true;
+    int marks = 0;
+    System.out.println("Hello" + username + ", enter team ID to view and give marks: ");
+    while(sentinel){
+    String teamID = input.next();
+    for(int i = 0; i < TeamRead.length; i++) {
+        if(teamID.equals(TeamRead[i][0])) {
+            System.out.println("Team name: " + TeamRead[i][1]);
+            System.out.print("Marks to add to: Creativity(1), Marketability(2), Customer Service(3): ");
+            int markChoice = input.nextInt();
+            markChoice += 1;
+            System.out.print("Adding: ");
+            do{
+            marks = input.nextInt();
+            if(marks < 0 || marks > 5) {
+                System.out.println("Marks must be between 0 and 5!");
+            }
+            }while(marks < 0 || marks > 5);
+            TeamRead[i][markChoice] = String.valueOf(Integer.parseInt(TeamRead[i][markChoice]) + marks);
+            System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
+        }
     }
-
+    System.out.print("Continue?(Y/N): ");
+    String sentinel2 = input.next();
+    if(sentinel2.equals("N") || sentinel2.equals("n")) 
+        sentinel = false;
+}
+    
+}
     public static void spectatorPerms(boolean access, String username) {
     System.out.println("Hello" + username);
 }
