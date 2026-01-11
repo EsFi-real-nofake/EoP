@@ -1,8 +1,10 @@
 package pleaseWork;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -95,10 +97,14 @@ public class canvas {
                 System.getLogger(test.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
             //at this point, all data has been safely receieved properly
-            loginAndpermissions();
-        }
+            boolean sentinel = false;
+            do{    
+           sentinel = loginAndpermissions();
+        }while(sentinel != false);
+    }
+
 //now to revamp login page
-public static void loginAndpermissions () {
+public static boolean loginAndpermissions () {
     System.out.print("=====================================================");
     System.out.println("Welcome to The");
     System.out.println("1. Admin Login");
@@ -106,10 +112,10 @@ public static void loginAndpermissions () {
     System.out.println("3. Spectator Login");
     System.out.print("=====================================================");
     int loginChoice = input.nextInt();
-    if(loginChoice == 1) {
-        System.out.println("Enter credentials: ");
+     System.out.println("Enter credentials: ");
         String username = input.next();
         String password = input.next();
+    if(loginChoice == 1) {
         for(int i = 0; i < AdminRead.length; i++) {
             if(username.equals(AdminRead[i][0]) && password.equals(AdminRead[i][1])) {
                 System.out.println("Access Granted!");
@@ -118,13 +124,18 @@ public static void loginAndpermissions () {
         }
     }
     else if(loginChoice == 2) {
-        System.out.println("Enter credentials: ");
-        String username = input.next();
-        String password = input.next();
         for(int i = 0; i < JudgeRead.length; i++) {
             if(username.equals(JudgeRead[i][0]) && password.equals(JudgeRead[i][1])) {
                 System.out.println("Access Granted!");
-                judgePerms(true);   
+                judgePerms(true, username);   
+            }  
+        }
+    }
+    else if(loginChoice == 3) {
+            for(int i = 0; i < SpectRead.length; i++) {
+            if(username.equals(SpectRead[i][0]) && password.equals(SpectRead[i][1])) {
+                System.out.println("Access Granted!");
+                spectatorPerms(true, username);   
             }  
         }
     }
@@ -160,19 +171,40 @@ public static void editTeams() {
     System.out.println("Whaddya wanna see?");
     System.out.println("1. Team mark edit/view\n2. Team name edit/view");
     choice = input.nextInt();
-    switch(choice) {
-        case 1 : {}
-        case 2 : {
-            System.out.print("Enter team ID: ");
+    System.out.print("Enter team ID: ");
             String teamID = input.next();
-            for(int i = 0; i < TeamRead.length; i++) {
+    switch(choice) {
+        case 1 : {for(int i = 0; i < TeamRead.length; i++) {
                 if(teamID.equals(TeamRead[i][0])) {
                     System.out.println("Team name: " + TeamRead[i][1]);
                     System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
+                }}
+            }
+        case 2 : {
+            for(int i = 0; i < TeamRead.length; i++) {
+                if(teamID.equals(TeamRead[i][0])) {
+                    System.out.println("Current team name: " + TeamRead[i][1]);
+                   System.out.print("Name to change to: ");
+                   String newName = input.next();
+                   TeamRead[i][1] = newName;
                 }
             }
         }
     }
+}
+
+public static void updateJudge() {
+try (BufferedWriter writer = new BufferedWriter(new FileWriter("JudgeData.txt"))) {
+    for (int i = 0; i < JudgeRead.length; i++) {
+        if (JudgeRead[i][0] != null) {
+            writer.write(JudgeRead[i][0] + "|" + JudgeRead[i][1]);
+            writer.newLine();
+        }
+    }
+    System.out.println("Judge file updated!");
+} catch (IOException e) {
+    e.printStackTrace();
+    }   
 }
 }
 	
