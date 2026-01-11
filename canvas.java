@@ -168,8 +168,8 @@ public static void adminPerms(boolean access, String username) {
 public static void judgePerms(boolean access, String username) {
     boolean sentinel = true;
     int marks = 0;
-    System.out.println("Hello" + username + ", enter team ID to view and give marks: ");
     while(sentinel){
+    System.out.println("Hello" + username + ", enter team ID to view and give marks: ");
     String teamID = input.next();
     for(int i = 0; i < TeamRead.length; i++) {
         if(teamID.equals(TeamRead[i][0])) {
@@ -196,7 +196,19 @@ public static void judgePerms(boolean access, String username) {
     
 }
     public static void spectatorPerms(boolean access, String username) {
-    System.out.println("Hello" + username);
+        boolean sentinel = true;
+        do{
+         System.out.println("Hello" + username + ", enter teamID to view: ");
+        String teamID = input.next();
+        for(int i = 0; i < TeamRead.length; i++) {
+            if(teamID.equals(TeamRead[i][0])) {
+                System.out.println("Team name: " + TeamRead[i][1]);
+                System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
+                int average = (Integer.parseInt(TeamRead[i][2]) + Integer.parseInt(TeamRead[i][3]) + Integer.parseInt(TeamRead[i][4])) / 3;
+                System.out.println("Team average mark: " + average);
+            }
+        } 
+        }while(sentinel);
 }
 
 public static void editTeams() {
@@ -217,6 +229,7 @@ public static void editTeams() {
                     System.out.print("Mark to change to: ");
                     String newMark = input.next();
                     TeamRead[i][markChoice] = newMark;
+                    break;
                 }}
             }
         case 2 : {
@@ -226,6 +239,7 @@ public static void editTeams() {
                    System.out.print("Name to change to: ");
                    String newName = input.next();
                    TeamRead[i][1] = newName;
+                   break;
                 }
             }
         }
@@ -237,32 +251,33 @@ public static void editTeams() {
 public static void editJudges() {
     int choice;
     System.out.println("Whaddya wanna see?");
-    System.out.println("1. Judge mark edit/view\n2. Team name edit/view");
+    System.out.println("1. Judge name edit/view\n2. Judge password edit/view");
     choice = input.nextInt();
-    System.out.print("Enter team ID: ");
-            String teamID = input.next();
+    System.out.println("Enter judge username: ");
+     String judgeName = input.next();
     switch(choice) {
-        case 1 : {for(int i = 0; i < TeamRead.length; i++) {
-                if(teamID.equals(TeamRead[i][0])) {
-                    System.out.println("Team name: " + TeamRead[i][1]);
-                    System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
-                    System.out.print("Mark to change? Creativity(1), Marketability(2), Customer Service(3):");
-                    int markChoice = input.nextInt();
-                    markChoice += 1;
-                    System.out.print("Mark to change to: ");
-                    String newMark = input.next();
-                    TeamRead[i][markChoice] = newMark;
-                }}
+        case 1 : {
+                    for(int i = 0; i < JudgeRead.length; i++) {
+                        if(judgeName.equals(JudgeRead[i][0])) {
+                            System.out.println("Current name: " + JudgeRead[i][0]);
+                            System.out.print("Name to change to: ");
+                            String newName = input.next();
+                            JudgeRead[i][0] = newName;
+                            break;
+                        }
+                        else
+                            System.out.println("Judge not found!");
+                    }
+                break;
             }
         case 2 : {
-            for(int i = 0; i < TeamRead.length; i++) {
-                if(teamID.equals(TeamRead[i][0])) {
-                    System.out.println("Current team name: " + TeamRead[i][1]);
-                   System.out.print("Name to change to: ");
-                   String newName = input.next();
-                   TeamRead[i][1] = newName;
-                }
+            for(int i = 0; i < JudgeRead.length; i++) {
+                System.out.println("Current password: " + JudgeRead[i][1]);
+                System.out.print("Password to change to: ");
+                String newPassword = input.next();
+                JudgeRead[i][1] = newPassword;
             }
+            break;
         }
     }
 }
@@ -288,9 +303,9 @@ try (BufferedWriter writer = new BufferedWriter(new FileWriter("JudgeData.txt"))
 
 public static void updateSpectators() {
 try (BufferedWriter writer = new BufferedWriter(new FileWriter("SpectatorData.txt"))) {
-    for (int i = 0; i < JudgeRead.length; i++) {
-        if (JudgeRead[i][0] != null) {
-            writer.write(JudgeRead[i][0] + "|" + JudgeRead[i][1]);
+    for (int i = 0; i < SpectRead.length; i++) {
+        if (SpectRead[i][0] != null) {
+            writer.write(SpectRead[i][0] + "|" + SpectRead[i][1]);
             writer.newLine();
         }
     }
@@ -303,9 +318,9 @@ try (BufferedWriter writer = new BufferedWriter(new FileWriter("SpectatorData.tx
 
 public static void updateTeams() {
 try (BufferedWriter writer = new BufferedWriter(new FileWriter("TeamData.txt"))) {
-    for (int i = 0; i < JudgeRead.length; i++) {
-        if (JudgeRead[i][0] != null) {
-            writer.write(JudgeRead[i][0] + "|" + JudgeRead[i][1]);
+    for (int i = 0; i < TeamRead.length; i++) {
+        if (TeamRead[i][0] != null) {
+            writer.write(TeamRead[i][0] + "|" + TeamRead[i][1] + "|" + TeamRead[i][2] + "|" + TeamRead[i][3] + "|" + TeamRead[i][4]);
             writer.newLine();
         }
     }
