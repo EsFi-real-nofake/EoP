@@ -141,7 +141,7 @@ public static boolean loginAndpermissions () {
     }
     System.out.print("Continue?(Y/N): ");
     String sentinel = input.next();
-    if(sentinel.equals("Y") || sentinel.equals("y")) {
+    if(sentinel.equals("N") || sentinel.equals("n")) {
         return false;
     }
     else {
@@ -176,7 +176,7 @@ public static void adminPerms(boolean access, String username) {
 public static void judgePerms(boolean access, String username) {
     int marks = 0;
     while(true){
-    System.out.println("Hello" + username);
+    System.out.println("Hello" + username + ", enter Team ID to give marks to: ");
     String teamID = input.next();
     for(int i = 0; i < TeamRead.length; i++) {
         if(teamID.equals(TeamRead[i][0])) {
