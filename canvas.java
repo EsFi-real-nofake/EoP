@@ -28,7 +28,6 @@ public class canvas {
                      for (int j = 0; j < parts.length; j++) {
                     JudgeRead[i][j] = parts[j];
                 }
-                System.out.println(JudgeRead[i][0] + " " + JudgeRead[i][1]);
             }
                 System.out.println("Judge Data loaded successfully!");
             read.close();
@@ -51,15 +50,14 @@ public class canvas {
                 for (int j = 0; j < parts.length; j++) {
                     AdminRead[i][j] = parts[j];
                 }
-                System.out.println(AdminRead[i][0] + " " + AdminRead[i][1]);
             }
                 System.out.println("Admin Data loaded successfully!");
             readAdmin.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("Error: JudgeData.txt not found!");
+            System.out.println("Error: AdminData.txt not found!");
         ex.printStackTrace();
         } catch (IOException ex) {
-            System.out.println("Error: JudgeData.txt not found!");
+            System.out.println("Error: AdminData.txt not found!");
          ex.printStackTrace();
         }
         try {
@@ -73,15 +71,14 @@ public class canvas {
                 for (int j = 0; j < parts.length; j++) {
                     SpectRead[i][j] = parts[j];
                 }
-                System.out.println(SpectRead[i][0] + " " + SpectRead[i][1]);
             }
                 System.out.println("Spectator Data loaded successfully!");
             readSpect.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("Error: JudgeData.txt not found!");
+            System.out.println("Error: SpectatorData.txt not found!");
         ex.printStackTrace();
         } catch (IOException ex) {
-            System.out.println("Error: JudgeData.txt not found!");
+            System.out.println("Error: SpectatorData.txt not found!");
         ex.printStackTrace();
         }
         try {
@@ -94,15 +91,14 @@ public class canvas {
                     for(int j = 0; j < parts.length; j++){
                    TeamRead[i][j] = parts[j];
                     }
-                    System.out.println(TeamRead[i][0] + " " + TeamRead[i][1]);
                 }
                 System.out.println("Team Data loaded successfully!");
                 readTeam.close();
             } catch (FileNotFoundException ex) {
-                System.out.println("Error: JudgeData.txt not found!");
+                System.out.println("Error: TeamData.txt not found!");
             ex.printStackTrace();
             } catch (IOException ex) {
-                System.out.println("Error: JudgeData.txt not found!");
+                System.out.println("Error: TeamData.txt not found!");
             ex.printStackTrace();
             }
             //at this point, all data has been safely receieved properly
@@ -114,7 +110,7 @@ public class canvas {
 
 //now to revamp login page
 public static boolean loginAndpermissions () {
-    System.out.print("=====================================================");
+    System.out.print("=====================================================\n");
     System.out.println("Welcome to The");
     System.out.println("1. Admin Login");
     System.out.println("2. Judge Login");
@@ -130,14 +126,19 @@ public static boolean loginAndpermissions () {
                 System.out.println("Access Granted!");
                 adminPerms(true, username);   
             }  
+            else{
+                System.out.println("Access Denied!");
         }
-    }
+    }}
     else if(loginChoice == 2) {
         for(int i = 0; i < JudgeRead.length; i++) {
             if(username.equals(JudgeRead[i][0]) && password.equals(JudgeRead[i][1])) {
                 System.out.println("Access Granted!");
                 judgePerms(true, username);   
             }  
+            else{
+                System.out.println("Access Denied!");
+        }
         }
     }
     else if(loginChoice == 3) {
@@ -146,6 +147,9 @@ public static boolean loginAndpermissions () {
                 System.out.println("Access Granted!");
                 spectatorPerms(true, username);   
             }  
+            else{
+                System.out.println("Access Denied!");
+        }
         }
     }
     System.out.print("Continue?(Y/N): ");
@@ -233,6 +237,7 @@ public static void judgePerms(boolean access, String username) {
             } 
             case 2: {
                 System.out.println("Enter Judge ID: ");
+                String Jud
 
             }
         }
@@ -246,10 +251,11 @@ public static void judgePerms(boolean access, String username) {
 public static void editTeams() {
     int choice = 0;
     System.out.println("Whaddya wanna see?");
-    while(choice != 1 || choice != 2) {
+    while(choice != 1 && choice != 2) {
     System.out.println("================\n1. Team mark edit/view\n2. Team name edit/view\n==================");
     choice = input.nextInt();
-    if(choice != 1 || choice != 2) {
+    if(choice != 1 && choice != 2) {
+        System.out.println(choice);
         System.out.println("Invalid choice!");
     }
     }
@@ -289,10 +295,10 @@ public static void editTeams() {
 public static void editJudges() {
     int choice = 0;
     System.out.println("Whaddya wanna see?");
-    while(choice != 1 || choice != 2) {
+    while(choice != 1 && choice != 2) {
     System.out.println("====================\n1. Judge name edit/view\n2. Judge password edit/view\n====================");
     choice = input.nextInt();
-    if(choice != 1 || choice != 2) {
+    if(choice != 1 && choice != 2) {
         System.out.println("Invalid choice!");
         }
     }
@@ -332,10 +338,10 @@ public static void editJudges() {
 public static void editSpectators() {
      int choice = 0;
     System.out.println("Whaddya wanna see?");
-    while(choice != 1 || choice != 2) {
+    while(choice != 1 && choice != 2) {
     System.out.println("====================\n1. Spectator name edit/view\n2. Spectator password edit/view\n====================");
     choice = input.nextInt();
-    if(choice != 1 || choice != 2) {
+    if(choice != 1 && choice != 2) {
         System.out.println("Invalid choice!");
     }
     }
