@@ -1,6 +1,5 @@
 package pleaseWork;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -26,7 +25,7 @@ public class canvas {
             }
             i++;
         }
-        
+        System.out.println("Team Data loaded successfully!");
     } catch (FileNotFoundException ex) {
                 System.out.println("Error: TeamData.txt not found!");
             ex.printStackTrace();
@@ -42,7 +41,6 @@ public class canvas {
         int i = 0;
         while ((line = read.readLine()) != null && i < JudgeRead.length) {
             String[] parts = line.split("\\|");
-            System.out.println(line);
                  for (int j = 0; j < parts.length; j++) {
                 JudgeRead[i][j] = parts[j];
             }
@@ -65,7 +63,6 @@ public static void loadAdmin() {
      int i = 0;
      while ((line = readAdmin.readLine()) != null && i < AdminRead.length) {
          String[] parts = line.split("\\|");
-         System.out.println(line);
          for (int j = 0; j < parts.length; j++) {
              AdminRead[i][j] = parts[j];
          }
@@ -89,7 +86,6 @@ public static void loadSpect() {
             int i = 0;
             while ((line = readSpect.readLine()) != null && i < SpectRead.length) {
                 String[] parts = line.split("\\|");
-                System.out.println(line);
                 for (int j = 0; j < parts.length; j++) {
                     SpectRead[i][j] = parts[j];
                 }
@@ -106,12 +102,12 @@ public static void loadSpect() {
         }
     }
 	public static void main(String[] args) {
+        loadTeams();
+        loadAdmin();
+        loadJudge();
+        loadSpect();
         //at this point, all data has been safely receieved properly
-            loadTeams();
-            loadAdmin();
-            loadJudge();
-            loadSpect();
-            boolean sentinel = false;
+            boolean sentinel;
             do{    
            sentinel = loginAndpermissions();
         }while(sentinel);
@@ -168,7 +164,7 @@ public static boolean loginAndpermissions () {
         }
         }
     }
-    System.out.print("Continue?(Y/N): ");
+    System.out.print("Login again?(Y/N): ");
     String sentinel = input.next();
     if(sentinel.equals("N") || sentinel.equals("n")) {
         return false;
@@ -183,7 +179,7 @@ public static void adminPerms(boolean access, String username) {
     String sentinel;
     System.out.println("Hello " + username + ", what do you want to do?");
     do{
-    System.out.println("1. Edit Teams\n2. Edit Judges\n3. Edit Spectators");
+    System.out.println("===============================\n1. Edit Teams\n2. Edit Judges\n3. Edit Spectators\n===============================");
     input.nextLine();
     choice = input.nextInt();
     if(choice == 1) {
@@ -225,6 +221,9 @@ public static void judgePerms(boolean access, String username) {
             TeamRead[i][markChoice] = String.valueOf(Integer.parseInt(TeamRead[i][markChoice]) + marks);
             System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
         }
+        else {
+            System.out.println("Team ID not found!");
+        }
     }
     System.out.print("Continue?(Y/N): ");
     String sentinel = input.next();
@@ -238,7 +237,7 @@ public static void judgePerms(boolean access, String username) {
         String sentinel;
         int choice;
         do{
-         System.out.println("Hello" + username);
+         System.out.println("Hello " + username);
          System.out.println("=====================================\n1. See Teams\n2.See leading team in respective categories\n=====================================");
         input.nextLine();
          choice = input.nextInt();
@@ -253,34 +252,44 @@ public static void judgePerms(boolean access, String username) {
                        int average = (Integer.parseInt(TeamRead[i][2]) + Integer.parseInt(TeamRead[i][3]) + Integer.parseInt(TeamRead[i][4])) / 3;
                        System.out.println("Team average mark: " + average);
                    }
+                   else {
+                    System.out.println("Team ID not found!");
+                   }
                } 
             break;
             } 
             case 2: {
-                System.out.println("Enter Category to check: ");
+                System.out.println("Enter Category to check(1: Creativity, 2: Marketability, 3: Customer Service, 4: EXIT): ");
                 int Category = input.nextInt();
                  String teamID = " ", teamName = " ";
                 for(int i = 0; i < TeamRead.length; i++) {
                     int max = 0;
+                    if(Category == 4) {
+                        break;
+                    }
                     if(Category == 3) {
                         for(int j = 0; j < TeamRead.length; j++) {
                             if(Integer.parseInt(TeamRead[j][4]) > max) {
                                 max = Integer.parseInt(TeamRead[j][4]);
                                 teamID = TeamRead[j][0];
                                 teamName = TeamRead[j][1];
+                                break;
                             } 
                         }
                             System.out.println("Team ID: " + teamID + " | Team Name: " + teamName + " is leading in Customer Service with " + max + " marks");
-                    }
+                        break;
+                        }
                     if(Category == 2) {
                          for(int j = 0; j < TeamRead.length; j++) {
                             if(Integer.parseInt(TeamRead[j][3]) > max) {
                                 max = Integer.parseInt(TeamRead[j][3]);
                                 teamID = TeamRead[j][0];
                                 teamName = TeamRead[j][1];
+                                break;
                             } 
                         }
                         System.out.println("Team ID: " + teamID + " | Team Name: " + teamName + " is leading in Marketability with " + max + " marks");
+                        break;
                     }
                     if(Category == 1) {
                          for(int j = 0; j < TeamRead.length; j++) {
@@ -291,12 +300,13 @@ public static void judgePerms(boolean access, String username) {
                             } 
                         }
                         System.out.println("Team ID: " + teamID + " | Team Name: " + teamName + " is leading in Creativity with " + max + " marks");
+                        break;
                     }
                 }
                 break;
             }
             default: {
-                
+                System.out.println("Invalid choice!"); break;
             }
         }
         System.out.print("Continue?(Y/N): ");
@@ -309,8 +319,9 @@ public static void judgePerms(boolean access, String username) {
 
 
 public static void editTeams() {
-    int choice = 0;
-    int index = 0;
+    int choice = 0, markChoice = 0, index = 0;
+    String skip = "skip";
+    loadTeams();
     System.out.println("Whaddya wanna see?");
     while(choice != 1 && choice != 2) {
     System.out.println("================\n1. Team mark edit/view\n2. Team name edit/view\n==================");
@@ -327,15 +338,16 @@ public static void editTeams() {
                 if(teamID.equals(TeamRead[i][0])) {
                     System.out.println("Team name: " + TeamRead[i][1]);
                     System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
-                    System.out.print("Mark to change? Creativity(1), Marketability(2), Customer Service(3):");
-                    int markChoice = input.nextInt();
+                    System.out.print("Mark to change? Creativity(1), Marketability(2), Customer Service(3), EXIT(4):");
+                    markChoice = input.nextInt();
+                    if(markChoice == 4) break;
                     markChoice += 1;
                     System.out.print("Mark to change to: ");
                     String newMark = input.next();
                     TeamRead[i][markChoice] = newMark;
                     index = i;
                     break;
-                }}
+                }} break;
             }
         case 2 : {
             for(int i = 0; i < TeamRead.length; i++) {
@@ -343,15 +355,16 @@ public static void editTeams() {
                 if(teamID.equals(TeamRead[i][0])) {
                     System.out.println("Current team name: " + TeamRead[i][1]);
                    System.out.print("Name to change to: ");
-                   String newName = input.next();
+                   input.nextLine();
+                   String newName = input.nextLine();
                    TeamRead[i][1] = newName;
                    index = i;
                    break;
                 }
-            }
+            } break;
         }
     }
-     if(TeamRead[index][0] == null || TeamRead[index][1] == null || TeamRead[index][2] == null || TeamRead[index][3] == null || TeamRead[index][4] == null) {
+     if(TeamRead[index][0].equals(skip)|| TeamRead[index][1].equals(skip) || markChoice == 4) {
         System.out.println("Nothing updated");
         return;
     }
@@ -361,7 +374,9 @@ public static void editTeams() {
 
 
 public static void editJudges() {
-    int choice = 0;
+    int choice = 0, index = 0;
+    String skip = "skip";
+    loadJudge();
     System.out.println("Whaddya wanna see?");
     while(choice != 1 && choice != 2) {
     System.out.println("====================\n1. Judge name edit/view\n2. Judge password edit/view\n====================");
@@ -370,9 +385,14 @@ public static void editJudges() {
         System.out.println("Invalid choice!");
         }
     }
+    System.out.println("List of judges: ");
+    for(int i = 0; i < JudgeRead.length; i++) {
+        System.out.println(JudgeRead[i][0]);
+        }
+    
     System.out.println("Enter judge username: ");
      String judgeName = input.next();
-     int index = 0;
+   
     switch(choice) {
         case 1 : {
                     for(int i = 0; i < JudgeRead.length; i++) {
@@ -402,8 +422,12 @@ public static void editJudges() {
             }
             break;
         }
+        default : {
+            System.out.println("Idk how u did, but you broke through the hardcode. Congratulations, Stanley");
+            break;
+        }
     }
-    if(JudgeRead[index][0] == null || JudgeRead[index][1] == null) {
+    if(JudgeRead[index][0].equals(skip) || JudgeRead[index][1].equals(skip) || judgeName.equals(skip)) {
         System.out.println("Nothing updated");
         return;
     }
@@ -411,8 +435,9 @@ public static void editJudges() {
 }
 
 public static void editSpectators() {
-     int choice = 0;
-     int index = 0;
+     int choice = 0, index = 0;
+     String skip = "skip";
+     loadSpect();
     System.out.println("Whaddya wanna see?");
     while(choice != 1 && choice != 2) {
     System.out.println("====================\n1. Spectator name edit/view\n2. Spectator password edit/view\n====================");
@@ -420,6 +445,9 @@ public static void editSpectators() {
     if(choice != 1 && choice != 2) {
         System.out.println("Invalid choice!");
     }
+    }
+    for(int i = 0; i < SpectRead.length; i++) {
+        System.out.println(SpectRead[i][0]);
     }
     System.out.println("Enter spectator username: ");
      String SpectName = input.next();
@@ -453,7 +481,7 @@ public static void editSpectators() {
             break;
         }
     }
-    if(SpectRead[index][0] == null || SpectRead[index][1] == null) {
+    if(SpectRead[index][0].equals(skip) || SpectRead[index][1].equals(skip) || SpectName.equals(skip)) {
         System.out.println("Nothing updated");
         return;
     }
