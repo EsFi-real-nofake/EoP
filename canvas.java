@@ -236,8 +236,8 @@ public static void judgePerms(boolean access, String username) {
             break;
             } 
             case 2: {
-                System.out.println("Enter Judge ID: ");
-                String Jud
+                System.out.println("Enter Judge username: ");
+                String Judge
 
             }
         }
