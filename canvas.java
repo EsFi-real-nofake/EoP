@@ -9,11 +9,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class canvas {
+    //FUTURE ENHANCEMENT: Converting to ArrayList for dynamic arrays
     public static String[][] TeamRead = new String[10][5];
     public static String[][] JudgeRead = new String[5][2];
     public static String[][] AdminRead = new String[5][2];
     public static String[][] SpectRead = new String[5][2];
     public static Scanner input = new Scanner(System.in);
+    //DATA  LOADERS:
+    //FOR TEAMS
    public static void loadTeams() {
     int i = 0;
     try (BufferedReader readTeam = new BufferedReader(new FileReader("TeamData.txt"))) {
@@ -34,6 +37,7 @@ public class canvas {
             ex.printStackTrace();
             }
     }
+    //FOR JUDGES
     public static void loadJudge() {
     try {
         BufferedReader read = new BufferedReader(new FileReader("JudgeData.txt"));
@@ -56,6 +60,7 @@ ex.printStackTrace();
 ex.printStackTrace();
     }
 }
+//FOR ADMINS
 public static void loadAdmin() {
  try {
      BufferedReader readAdmin = new BufferedReader(new FileReader("AdminData.txt"));
@@ -78,6 +83,7 @@ public static void loadAdmin() {
   ex.printStackTrace();
  }
 }
+//FOR SPECTATORS
 public static void loadSpect() {
     
         try {
@@ -101,7 +107,9 @@ public static void loadSpect() {
         ex.printStackTrace();
         }
     }
-	public static void main(String[] args) {
+//MAIN IS HERE MAIN IS HERE MAIN IS HERE MAIN IS HERE 
+//MAIN IS HERE MAIN IS HERE MAIN IS HERE MAIN IS HERE  
+    public static void main(String[] args) {
         loadTeams();
         loadAdmin();
         loadJudge();
@@ -109,12 +117,12 @@ public static void loadSpect() {
         //at this point, all data has been safely receieved properly
             boolean sentinel;
             do{    
-           sentinel = loginAndpermissions();
+           sentinel = loginAndpermissions(); //HELD UP BY A SINGLE PEBBLE TYPE SHI PROGRAM
         }while(sentinel);
         System.out.println("Thank you for exploring this labyritnh of a program!");
     }
 
-//now to revamp login page
+//REVAMPED LOGIN PAGE
 public static boolean loginAndpermissions () {
     System.out.print("=====================================================\n");
     System.out.println("Welcome to The Festival Manager");
@@ -123,9 +131,12 @@ public static boolean loginAndpermissions () {
     System.out.println("3. Spectator Login");
     System.out.print("=====================================================\n");
     int loginChoice = input.nextInt();
-     System.out.println("Enter credentials: ");
+    System.out.println(loginChoice);
+      System.out.println("Enter credentials: ");
         String username = input.next();
         String password = input.next();
+        //COULD'VE USED SWITCH HERE NGL
+        //Error checking for username and password
     if(loginChoice == 1) {
         for(int i = 0; i < AdminRead.length; i++) {
             if(username.equals(AdminRead[i][0]) && password.equals(AdminRead[i][1])) {
@@ -133,35 +144,23 @@ public static boolean loginAndpermissions () {
                 adminPerms(true, username);   
                 break;
             }  
-            else{
-                System.out.println("Access Denied!");
-                break;
-        }
     }}
-    else if(loginChoice == 2) {
+    if(loginChoice == 2) {
         for(int i = 0; i < JudgeRead.length; i++) {
             if(username.equals(JudgeRead[i][0]) && password.equals(JudgeRead[i][1])) {
                 System.out.println("Access Granted!");
                 judgePerms(true, username);   
                 break;
             }  
-            else{
-                System.out.println("Access Denied!");
-                break;
-        }
         }
     }
-    else if(loginChoice == 3) {
+    if(loginChoice == 3) {
             for(int i = 0; i < SpectRead.length; i++) {
             if(username.equals(SpectRead[i][0]) && password.equals(SpectRead[i][1])) {
                 System.out.println("Access Granted!");
                 spectatorPerms(true, username);   
                 break;
             }  
-            else{
-                System.out.println("Access Denied!");
-                break;
-        }
         }
     }
     System.out.print("Login again?(Y/N): ");
@@ -173,7 +172,7 @@ public static boolean loginAndpermissions () {
         return true;
     }
 }
-
+//ADMIN PERMISSION / ABILITIES
 public static void adminPerms(boolean access, String username) {
     int choice;
     String sentinel;
@@ -182,6 +181,8 @@ public static void adminPerms(boolean access, String username) {
     System.out.println("===============================\n1. Edit Teams\n2. Edit Judges\n3. Edit Spectators\n===============================");
     input.nextLine();
     choice = input.nextInt();
+    //NGL COULD'VE USED SWITCH HERE TOO
+    //BASICALLY, EVERY EDIT FUNCTION IS SEPARATED
     if(choice == 1) {
         editTeams();
     }
@@ -191,7 +192,7 @@ public static void adminPerms(boolean access, String username) {
     else if(choice == 3) {
         editSpectators();
     }
-    System.out.println("Want to continue? (Y/N)");
+    System.out.println("Want to continue as "+ username +"? (Y/N)");
     sentinel = input.next();
     if(sentinel.equals("N") || sentinel.equals("n")) {
         return;
@@ -211,15 +212,15 @@ public static void judgePerms(boolean access, String username) {
             input.nextLine();
             int markChoice = input.nextInt();
             markChoice += 1;
-            System.out.print("Adding: ");
             do{
+            System.out.print("Adding: ");
             marks = input.nextInt();
             if(marks < 0 || marks > 5) {
                 System.out.println("Marks must be between 0 and 5!");
             }
             }while(marks < 0 || marks > 5);
             TeamRead[i][markChoice] = String.valueOf(Integer.parseInt(TeamRead[i][markChoice]) + marks);
-            System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
+            System.out.println("Team mark: Creativity: " + TeamRead[i][2] + " | Marketability: " + TeamRead[i][3] + " | Customer Service: " + TeamRead[i][4]);
         }
         else {
             System.out.println("Team ID not found!");
@@ -248,12 +249,9 @@ public static void judgePerms(boolean access, String username) {
                for(int i = 0; i < TeamRead.length; i++) {
                    if(teamID.equals(TeamRead[i][0])) {
                        System.out.println("Team name: " + TeamRead[i][1]);
-                       System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
+                       System.out.println("Team mark: Creativity: " + TeamRead[i][2] + " | Marketability: "  + TeamRead[i][3] + " | Customer Service: " + TeamRead[i][4]);
                        int average = (Integer.parseInt(TeamRead[i][2]) + Integer.parseInt(TeamRead[i][3]) + Integer.parseInt(TeamRead[i][4])) / 3;
                        System.out.println("Team average mark: " + average);
-                   }
-                   else {
-                    System.out.println("Team ID not found!");
                    }
                } 
             break;
@@ -273,7 +271,6 @@ public static void judgePerms(boolean access, String username) {
                                 max = Integer.parseInt(TeamRead[j][4]);
                                 teamID = TeamRead[j][0];
                                 teamName = TeamRead[j][1];
-                                break;
                             } 
                         }
                             System.out.println("Team ID: " + teamID + " | Team Name: " + teamName + " is leading in Customer Service with " + max + " marks");
@@ -285,7 +282,6 @@ public static void judgePerms(boolean access, String username) {
                                 max = Integer.parseInt(TeamRead[j][3]);
                                 teamID = TeamRead[j][0];
                                 teamName = TeamRead[j][1];
-                                break;
                             } 
                         }
                         System.out.println("Team ID: " + teamID + " | Team Name: " + teamName + " is leading in Marketability with " + max + " marks");
@@ -323,7 +319,7 @@ public static void editTeams() {
     String skip = "skip";
     loadTeams();
     System.out.println("Whaddya wanna see?");
-    while(choice != 1 && choice != 2) {
+    while(choice != 1 && choice != 2) { //MENU right here
     System.out.println("================\n1. Team mark edit/view\n2. Team name edit/view\n==================");
     choice = input.nextInt();
     if(choice != 1 && choice != 2) {
@@ -337,7 +333,7 @@ public static void editTeams() {
         case 1 : {for(int i = 0; i < TeamRead.length; i++) {
                 if(teamID.equals(TeamRead[i][0])) {
                     System.out.println("Team name: " + TeamRead[i][1]);
-                    System.out.println("Team mark: Creativity" + TeamRead[i][2] + " | Marketability" + TeamRead[i][3] + " | Customer Service" + TeamRead[i][4]);
+                    System.out.println("Team mark: Creativity: " + TeamRead[i][2] + " | Marketability: " + TeamRead[i][3] + " | Customer Service: " + TeamRead[i][4]);
                     System.out.print("Mark to change? Creativity(1), Marketability(2), Customer Service(3), EXIT(4):");
                     markChoice = input.nextInt();
                     if(markChoice == 4) break;
@@ -446,6 +442,7 @@ public static void editSpectators() {
         System.out.println("Invalid choice!");
     }
     }
+    System.out.println("List of spectators: ");
     for(int i = 0; i < SpectRead.length; i++) {
         System.out.println(SpectRead[i][0]);
     }
@@ -489,6 +486,7 @@ public static void editSpectators() {
 }
 
 //METHODS TO UPDATE TEXT FILE
+//since writer wipes the entire thing, we just rewrite
 public static void updateJudge() {
 try (BufferedWriter writer = new BufferedWriter(new FileWriter("JudgeData.txt"))) {
     for (int i = 0; i < JudgeRead.length; i++) {
